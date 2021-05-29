@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="lease">
+        <item>Type of lease*</item>
+        <item>Freehold</item>
+        <item>Leasehold</item>
+        <item>Short let</item>
+        <item>Long let</item>
+    </string-array>
+</resources>

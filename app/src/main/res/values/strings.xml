@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">MadPropertyPal</string>
     <string name="property_name_number">Name and number*</string>
     <string name="property_location">Location*</string>
     <string name="property_bedrooms">Number of bedrooms*</string>
@@ -30,7 +29,6 @@
     <string name="conditions_of_offer">Conditions of Offer</string>
     <string name="viewing_comments">Viewing comments</string>
     <string name="view_interest">Viewing interest*</string>
-    <string name="title_activity_show_report">ShowReportActivity</string>
     <string name="search_text_name">Property name and number</string>
     <string name="search_text_area">Area</string>
     <string name="search_text_property_type">Type</string>

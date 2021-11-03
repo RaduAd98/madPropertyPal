@@ -27,14 +27,11 @@ public class AddPropertyActivity extends AppCompatActivity {
             txtConstructionYear,
             txtFloorsNumber,
             txtLocalAmenities;
-    Integer integerBedroomsNumber,
-            integerBathroomsNumber;
     Button btn_add_property,
             btn_view_property;
-    Spinner spinnerPropertyType,
-            spinnerLeaseType;
-    String spinnerError = "Select an option",
-            textBoxError = "This is a required field";
+    Spinner spnPropertyType,
+            spnLeaseType;
+    String errorMessage = "Required field";
     NumberPicker npBedrooms,
             npBathrooms;
 
@@ -45,8 +42,8 @@ public class AddPropertyActivity extends AppCompatActivity {
 
         initializeViews();
 
-        spinnerAdapter(spinnerPropertyType, R.array.home);
-        spinnerAdapter(spinnerLeaseType, R.array.lease);
+        spinnerAdapter(spnPropertyType, R.array.home);
+        spinnerAdapter(spnLeaseType, R.array.lease);
 
         setMinMaxValue(npBedrooms);
         setMinMaxValue(npBathrooms);
@@ -59,32 +56,32 @@ public class AddPropertyActivity extends AppCompatActivity {
                 String stringLocation = txtLocation.getEditText().getText().toString();
                 String stringSize = txtSize.getEditText().getText().toString();
                 String stringPrice = txtPrice.getEditText().getText().toString();
+
                 //Converting selected options from Spinners into String Type
-                String stringPropertyType = spinnerPropertyType.getSelectedItem().toString();
-                String stringLeaseType = spinnerLeaseType.getSelectedItem().toString();
+                String stringPropertyType = spnPropertyType.getSelectedItem().toString();
+                String stringLeaseType = spnLeaseType.getSelectedItem().toString();
                 String stringConstructionYear = txtConstructionYear.getEditText().getText().toString();
                 String stringFloorsNumber = txtFloorsNumber.getEditText().getText().toString();
                 String stringDescription = txtDescription.getEditText().getText().toString();
                 String stringLocalAmenities = txtLocalAmenities.getEditText().getText().toString();
-                //Getting the values from Number Pickers
-                integerBedroomsNumber = npBedrooms.getValue();
-                integerBathroomsNumber = npBathrooms.getValue();
-                //Then saving them into String Type
-                String stringBedroomsNumber = integerBedroomsNumber.toString();
-                String stringBathroomsNumber = integerBathroomsNumber.toString();
+
+                //Getting the values from Number Pickers into String format
+                String stringBedroomsNumber = String.valueOf(npBedrooms.getValue());
+                String stringBathroomsNumber = String.valueOf(npBathrooms.getValue());
 
                 checkTextBoxInput(stringNameNumber, txtName);
                 checkTextBoxInput(stringLocation, txtLocation);
                 checkTextBoxInput(stringSize, txtSize);
                 checkTextBoxInput(stringPrice, txtPrice);
 
-                checkSpinnerInput(spinnerPropertyType);
-                checkSpinnerInput(spinnerLeaseType);
+                checkSpinnerInput(spnPropertyType);
+                checkSpinnerInput(spnLeaseType);
 
                 if (!stringNameNumber.isEmpty() && !stringLocation.isEmpty() && !stringSize.isEmpty() && !stringPrice.isEmpty() &&
-                        spinnerPropertyType.getSelectedItemPosition() != 0 && spinnerLeaseType.getSelectedItemPosition() != 0) {
+                        spnPropertyType.getSelectedItemPosition() != 0 && spnLeaseType.getSelectedItemPosition() != 0) {
                     DatabaseHelperClass databaseHelperClass = new DatabaseHelperClass(AddPropertyActivity.this);
-                    PropertyModelClass propertyModelClass = new PropertyModelClass(stringNameNumber, stringLocation, stringSize, stringPrice,
+                    PropertyModelClass propertyModelClass =
+                            new PropertyModelClass(stringNameNumber, stringLocation, stringSize, stringPrice,
                             stringPropertyType, stringLeaseType, stringConstructionYear, stringFloorsNumber, stringDescription,
                             stringLocalAmenities, stringBedroomsNumber, stringBathroomsNumber);
                     databaseHelperClass.addProperty(propertyModelClass);
@@ -119,14 +116,15 @@ public class AddPropertyActivity extends AppCompatActivity {
         txtFloorsNumber = findViewById(R.id.floors_number);
         btn_add_property = findViewById(R.id.button_add_property);
         btn_view_property = findViewById(R.id.button_view_property);
-        spinnerPropertyType = findViewById(R.id.spinnerPropertyType);
-        spinnerLeaseType = findViewById(R.id.spinnerLeaseType);
+        spnPropertyType = findViewById(R.id.spnPropertyType);
+        spnLeaseType = findViewById(R.id.spnLeaseType);
         npBedrooms = findViewById(R.id.npBedrooms);
         npBathrooms = findViewById(R.id.npBathrooms);
     }
 
     private void spinnerAdapter(Spinner spinner, int array) {
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(AddPropertyActivity.this, array, android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter =
+                ArrayAdapter.createFromResource(AddPropertyActivity.this, array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
     }
@@ -139,7 +137,7 @@ public class AddPropertyActivity extends AppCompatActivity {
 
     private void checkTextBoxInput(String string, TextInputLayout textInputLayout) {
         if (string.isEmpty()) {
-            textInputLayout.setError(textBoxError);
+            textInputLayout.setError(errorMessage);
         } else {
             textInputLayout.setError(null);
         }
@@ -148,7 +146,7 @@ public class AddPropertyActivity extends AppCompatActivity {
     private void checkSpinnerInput(Spinner spinner) {
         if (spinner.getSelectedItemPosition() == 0) {
             TextView spinnerSetTextError = (TextView) spinner.getSelectedView();
-            spinnerSetTextError.setText(spinnerError);
+            spinnerSetTextError.setText(errorMessage);
             spinnerSetTextError.setTextColor(Color.RED);
         }
     }

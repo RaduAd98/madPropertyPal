@@ -15,9 +15,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.madpropertypal.Databases.DatabaseHelperClass;
 import com.example.madpropertypal.Adapters.PropertyAdapterClass;
 import com.example.madpropertypal.Constructors.PropertyModelClass;
+import com.example.madpropertypal.Databases.DatabaseHelperClass;
 import com.example.madpropertypal.R;
 
 import java.io.BufferedReader;
@@ -35,12 +35,12 @@ import javax.net.ssl.HttpsURLConnection;
 
 public class ShowPropertyActivity extends AppCompatActivity {
 
-    EditText nameText;
-    EditText areaText;
-    EditText typeText;
-    EditText bedroomsText;
-    Button advancedSearch;
-    Button btnUpload;
+    EditText nameText,
+            areaText,
+            typeText,
+            bedroomsText;
+    Button advancedSearch,
+            btnUpload;
     RecyclerView recyclerView;
     WebView browser;
     PropertyAdapterClass propertyAdapterClass;
@@ -51,14 +51,8 @@ public class ShowPropertyActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_property);
 
-        nameText = findViewById(R.id.edit_text_search_bar_name);
-        areaText = findViewById(R.id.edit_text_search_bar_area);
-        typeText = findViewById(R.id.edit_text_search_bar_type);
-        bedroomsText = findViewById(R.id.edit_text_search_bar_bedrooms);
-        advancedSearch = findViewById(R.id.button_advanced_search);
-        btnUpload = findViewById(R.id.button_upload_final);
-        browser = findViewById(R.id.browser);
-        recyclerView = findViewById(R.id.recycler_view);
+        initializeViews();
+
         recyclerView.setLayoutManager(new LinearLayoutManager(ShowPropertyActivity.this));
         recyclerView.setHasFixedSize(true);
 
@@ -299,5 +293,17 @@ public class ShowPropertyActivity extends AppCompatActivity {
         String generatePage(String content) {
             return "<html><body><p>" + content + "</p></body></html>";
         }
+    }
+
+    //Variables declaration
+    private void initializeViews() {
+        nameText = findViewById(R.id.edit_text_search_bar_name);
+        areaText = findViewById(R.id.edit_text_search_bar_area);
+        typeText = findViewById(R.id.edit_text_search_bar_type);
+        bedroomsText = findViewById(R.id.edit_text_search_bar_bedrooms);
+        advancedSearch = findViewById(R.id.button_advanced_search);
+        btnUpload = findViewById(R.id.button_upload_final);
+        browser = findViewById(R.id.browser);
+        recyclerView = findViewById(R.id.recycler_view);
     }
 }

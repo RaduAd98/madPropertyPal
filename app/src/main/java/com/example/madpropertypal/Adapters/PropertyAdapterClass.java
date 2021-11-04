@@ -1,5 +1,6 @@
 package com.example.madpropertypal.Adapters;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -15,8 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.madpropertypal.Activities.AddReportActivity;
 import com.example.madpropertypal.Activities.ShowReportActivity;
-import com.example.madpropertypal.Databases.DatabaseHelperClass;
 import com.example.madpropertypal.Constructors.PropertyModelClass;
+import com.example.madpropertypal.Databases.DatabaseHelperClass;
 import com.example.madpropertypal.R;
 
 import java.util.List;
@@ -50,7 +51,7 @@ public class PropertyAdapterClass extends RecyclerView.Adapter<PropertyAdapterCl
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
         final PropertyModelClass propertyModelClass = property.get(position);
 
         //Populating the text fields with the data inserted

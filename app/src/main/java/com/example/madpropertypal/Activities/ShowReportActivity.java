@@ -8,10 +8,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.madpropertypal.Databases.DatabaseHelperClass;
-import com.example.madpropertypal.R;
 import com.example.madpropertypal.Adapters.ReportAdapterClass;
 import com.example.madpropertypal.Constructors.ReportModelClass;
+import com.example.madpropertypal.Databases.DatabaseHelperClass;
+import com.example.madpropertypal.R;
 
 import java.util.List;
 

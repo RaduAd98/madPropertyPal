@@ -1,14 +1,16 @@
 package com.example.madpropertypal.Activities;
 
+import static com.example.madpropertypal.Utils.DataUtils.checkSpinnerInput;
+import static com.example.madpropertypal.Utils.DataUtils.checkTextBoxInput;
+import static com.example.madpropertypal.Utils.DataUtils.setMinMaxValue;
+import static com.example.madpropertypal.Utils.DataUtils.spinnerAdapter;
+
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,7 +33,6 @@ public class AddPropertyActivity extends AppCompatActivity {
             btn_view_property;
     Spinner spnPropertyType,
             spnLeaseType;
-    String errorMessage = "Required field";
     NumberPicker npBedrooms,
             npBathrooms;
 
@@ -42,8 +43,8 @@ public class AddPropertyActivity extends AppCompatActivity {
 
         initializeViews();
 
-        spinnerAdapter(spnPropertyType, R.array.home);
-        spinnerAdapter(spnLeaseType, R.array.lease);
+        spinnerAdapter(AddPropertyActivity.this, spnPropertyType, R.array.home);
+        spinnerAdapter(AddPropertyActivity.this, spnLeaseType, R.array.lease);
 
         setMinMaxValue(npBedrooms);
         setMinMaxValue(npBathrooms);
@@ -69,10 +70,10 @@ public class AddPropertyActivity extends AppCompatActivity {
                 String stringBedroomsNumber = String.valueOf(npBedrooms.getValue());
                 String stringBathroomsNumber = String.valueOf(npBathrooms.getValue());
 
-                checkTextBoxInput(stringNameNumber, txtName);
-                checkTextBoxInput(stringLocation, txtLocation);
-                checkTextBoxInput(stringSize, txtSize);
-                checkTextBoxInput(stringPrice, txtPrice);
+                checkTextBoxInput(AddPropertyActivity.this, stringNameNumber, txtName);
+                checkTextBoxInput(AddPropertyActivity.this, stringLocation, txtLocation);
+                checkTextBoxInput(AddPropertyActivity.this, stringSize, txtSize);
+                checkTextBoxInput(AddPropertyActivity.this, stringPrice, txtPrice);
 
                 checkSpinnerInput(spnPropertyType);
                 checkSpinnerInput(spnLeaseType);
@@ -82,8 +83,8 @@ public class AddPropertyActivity extends AppCompatActivity {
                     DatabaseHelperClass databaseHelperClass = new DatabaseHelperClass(AddPropertyActivity.this);
                     PropertyModelClass propertyModelClass =
                             new PropertyModelClass(stringNameNumber, stringLocation, stringSize, stringPrice,
-                            stringPropertyType, stringLeaseType, stringConstructionYear, stringFloorsNumber, stringDescription,
-                            stringLocalAmenities, stringBedroomsNumber, stringBathroomsNumber);
+                                    stringPropertyType, stringLeaseType, stringConstructionYear, stringFloorsNumber, stringDescription,
+                                    stringLocalAmenities, stringBedroomsNumber, stringBathroomsNumber);
                     databaseHelperClass.addProperty(propertyModelClass);
                     Toast.makeText(AddPropertyActivity.this, "Property was added", Toast.LENGTH_SHORT).show();
                     finish();
@@ -120,34 +121,5 @@ public class AddPropertyActivity extends AppCompatActivity {
         spnLeaseType = findViewById(R.id.spnLeaseType);
         npBedrooms = findViewById(R.id.npBedrooms);
         npBathrooms = findViewById(R.id.npBathrooms);
-    }
-
-    private void spinnerAdapter(Spinner spinner, int array) {
-        ArrayAdapter<CharSequence> adapter =
-                ArrayAdapter.createFromResource(AddPropertyActivity.this, array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-    }
-
-    private void setMinMaxValue(NumberPicker numberPicker) {
-        numberPicker.setMinValue(1);
-        numberPicker.setMaxValue(9);
-        numberPicker.setWrapSelectorWheel(true);
-    }
-
-    private void checkTextBoxInput(String string, TextInputLayout textInputLayout) {
-        if (string.isEmpty()) {
-            textInputLayout.setError(errorMessage);
-        } else {
-            textInputLayout.setError(null);
-        }
-    }
-
-    private void checkSpinnerInput(Spinner spinner) {
-        if (spinner.getSelectedItemPosition() == 0) {
-            TextView spinnerSetTextError = (TextView) spinner.getSelectedView();
-            spinnerSetTextError.setText(errorMessage);
-            spinnerSetTextError.setTextColor(Color.RED);
-        }
     }
 }

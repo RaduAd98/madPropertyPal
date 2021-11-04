@@ -37,4 +37,5 @@
     <string name="url">https://gillwindallapp1.appspot.com/madservlet</string>
     <string name="button_upload_data">Upload</string>
     <string name="search_final">Up</string>
+    <string name="error_message">Required field</string>
 </resources>

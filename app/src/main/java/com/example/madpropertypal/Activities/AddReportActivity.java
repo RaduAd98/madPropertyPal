@@ -1,10 +1,12 @@
 package com.example.madpropertypal.Activities;
 
+import static com.example.madpropertypal.Utils.DataUtils.checkSpinnerInput;
+import static com.example.madpropertypal.Utils.DataUtils.checkTextBoxInput;
+import static com.example.madpropertypal.Utils.DataUtils.spinnerAdapter;
+
 import android.app.DatePickerDialog;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.Spinner;
@@ -13,24 +15,23 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.madpropertypal.Constructors.ReportModelClass;
 import com.example.madpropertypal.Databases.DatabaseHelperClass;
 import com.example.madpropertypal.R;
-import com.example.madpropertypal.Constructors.ReportModelClass;
 import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.Calendar;
 
 public class AddReportActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
     public static final String NAME = "name";
-    TextInputLayout textOfferPrice;
-    TextInputLayout textExpiryDate;
-    TextView textNameNumber;
-    TextInputLayout textViewComments;
-    String spinnerError = "Select an option";
-    TextInputLayout textOfferConditions;
-    TextView textViewDate;
+    TextInputLayout textOfferPrice,
+            textExpiryDate;
+    TextView textNameNumber,
+            textViewDate;
+    TextInputLayout textViewComments,
+            textOfferConditions;
     Button btn_add_report_final;
-    Spinner interest;
+    Spinner spnInterest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,21 +46,9 @@ public class AddReportActivity extends AppCompatActivity implements DatePickerDi
             }
         }
 
-        //Variables declaration
-        interest = findViewById(R.id.report_interest_spinner);
-        ArrayAdapter<CharSequence> myAdapter = ArrayAdapter.createFromResource(AddReportActivity.this, R.array.interest, android.R.layout.simple_spinner_item);
-        myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        interest.setAdapter(myAdapter);
+        initializeViews();
 
-
-        textViewComments = findViewById(R.id.report_view_comments);
-        textOfferPrice = findViewById(R.id.report_offer_price);
-        textExpiryDate = findViewById(R.id.report_expiry_date);
-
-        textOfferConditions = findViewById(R.id.report_offer_conditions);
-        textViewDate = findViewById(R.id.report_view_date);
-        btn_add_report_final = findViewById(R.id.button_add_report_final);
-
+        spinnerAdapter(AddReportActivity.this, spnInterest, R.array.interest);
 
         //When Add report button is pressed, shows the date dialog picker
         textViewDate.setOnClickListener(new View.OnClickListener() {
@@ -76,29 +65,17 @@ public class AddReportActivity extends AppCompatActivity implements DatePickerDi
                 String viewComments = textViewComments.getEditText().getText().toString();
                 String offerPrice = textOfferPrice.getEditText().getText().toString();
                 String expiryDate = textExpiryDate.getEditText().getText().toString();
-                String nameNumber = textNameNumber.getText().toString();
                 String offerConditions = textOfferConditions.getEditText().getText().toString();
+                String nameNumber = textNameNumber.getText().toString();
                 String viewDate = textViewDate.getText().toString();
-                String viewInterest = interest.getSelectedItem().toString();
+                String viewInterest = spnInterest.getSelectedItem().toString();
 
-                if (textNameNumber.getText().toString().isEmpty()) {
-                    textNameNumber.setError("Error, required field!");
-                } else {
-                    textNameNumber.setError(null);
-                }
-                if (interest.getSelectedItemPosition() == 0) {
-                    TextView spinner1Error = (TextView) interest.getSelectedView();
-                    spinner1Error.setError("");
-                    spinner1Error.setText(spinnerError);
-                    spinner1Error.setTextColor(Color.RED);
-                }
-                if (textViewDate.getText().toString().isEmpty()) {
-                    textViewDate.setError("Error, required field");
-                } else {
-                    textViewDate.setError(null);
-                }
+                checkTextBoxInput(AddReportActivity.this, nameNumber, textNameNumber);
+                checkTextBoxInput(AddReportActivity.this, viewDate, textViewDate);
 
-                if (!textNameNumber.getText().toString().isEmpty() && interest.getSelectedItemPosition() != 0 && !textViewDate.getText().toString().isEmpty()) {
+                checkSpinnerInput(spnInterest);
+
+                if (!textNameNumber.getText().toString().isEmpty() && spnInterest.getSelectedItemPosition() != 0 && !textViewDate.getText().toString().isEmpty()) {
                     DatabaseHelperClass databaseHelperClass = new DatabaseHelperClass(AddReportActivity.this);
                     ReportModelClass reportModelClass = new ReportModelClass(nameNumber, viewDate, viewInterest, offerPrice, offerConditions, expiryDate, viewComments);
                     databaseHelperClass.addReport(reportModelClass);
@@ -131,5 +108,16 @@ public class AddReportActivity extends AppCompatActivity implements DatePickerDi
         month = month + 1;
         String date = dayOfMonth + "/" + month + "/" + year;
         textViewDate.setText(date);
+    }
+
+    //Variables declaration
+    private void initializeViews() {
+        spnInterest = findViewById(R.id.report_interest_spinner);
+        textViewComments = findViewById(R.id.report_view_comments);
+        textOfferPrice = findViewById(R.id.report_offer_price);
+        textExpiryDate = findViewById(R.id.report_expiry_date);
+        textOfferConditions = findViewById(R.id.report_offer_conditions);
+        textViewDate = findViewById(R.id.report_view_date);
+        btn_add_report_final = findViewById(R.id.button_add_report_final);
     }
 }

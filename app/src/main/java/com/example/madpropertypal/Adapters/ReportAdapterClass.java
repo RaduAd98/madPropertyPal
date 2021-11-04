@@ -9,9 +9,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.madpropertypal.Constructors.ReportModelClass;
 import com.example.madpropertypal.Databases.DatabaseHelperClass;
 import com.example.madpropertypal.R;
-import com.example.madpropertypal.Constructors.ReportModelClass;
 
 import java.util.List;
 
